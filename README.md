@@ -20,9 +20,9 @@ LIGO heard it anyway.
 
 That moment — designated **GW150914** — confirmed the last great unverified prediction of general relativity, proved that stellar-mass binary black holes exist and merge, and launched an entirely new field of astronomy. Today, LIGO and its partner observatories have detected over 200 such events. We are no longer limited to observing the universe through light. We can *listen* to it.
 
-### Why Does This Matter for Data Science?
+### Why Is This A Useful Subject For Data Science Demonstration?
 
-Gravitational wave astronomy is one of the most data-intensive fields in modern science. The LIGO detectors produce 4,096 samples per second per channel, across hundreds of channels, continuously. The signal — when it arrives — is buried under noise that is *ten million times larger*. Finding it requires:
+Gravitational wave astronomy is one of the most data-intensive fields in modern science. The LIGO detectors produce 4,096 samples per second per channel, across hundreds of channels, continuously. The signal — when it arrives — is buried under noise that is *ten million times larger* than it. Finding the actual signal requires:
 
 - Advanced **signal processing** (whitening, bandpass filtering, notch filtering)
 - **Time-frequency analysis** (Q-transforms, spectrograms)
