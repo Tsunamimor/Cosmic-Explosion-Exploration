@@ -1,0 +1,61 @@
+{
+  "GW150914": {
+    "gps": 1126259462,
+    "type": "BBH",
+    "detectors": [
+      "H1",
+      "L1"
+    ],
+    "masses": "36 + 29 M\u2609",
+    "distance_Mpc": 410,
+    "note": "First ever direct detection. Two stellar-mass black holes, ~1.3 Gly away."
+  },
+  "GW170814": {
+    "gps": 1186741861,
+    "type": "BBH",
+    "detectors": [
+      "H1",
+      "L1",
+      "V1"
+    ],
+    "masses": "30.5 + 25.3 M\u2609",
+    "distance_Mpc": 540,
+    "note": "First triple-detector observation; allowed sky localisation to ~60 deg\u00b2."
+  },
+  "GW170817": {
+    "gps": 1187008882,
+    "type": "BNS",
+    "detectors": [
+      "H1",
+      "L1",
+      "V1"
+    ],
+    "masses": "1.36 + 1.17 M\u2609",
+    "distance_Mpc": 40,
+    "note": "Binary neutron star \u2014 with optical/radio/X-ray counterpart (kilonova). Dawn of multi-messenger astronomy."
+  },
+  "GW190521": {
+    "gps": 1242442967,
+    "type": "BBH",
+    "detectors": [
+      "H1",
+      "L1",
+      "V1"
+    ],
+    "masses": "95 + 69 M\u2609",
+    "distance_Mpc": 5300,
+    "note": "Heaviest BBH detected at the time; remnant exceeds the pair-instability mass gap."
+  },
+  "GW200105": {
+    "gps": 1262276512,
+    "type": "NSBH",
+    "detectors": [
+      "H1",
+      "L1",
+      "V1"
+    ],
+    "masses": "8.9 + 1.9 M\u2609",
+    "distance_Mpc": 280,
+    "note": "Neutron star\u2013black hole merger; the lighter component is consistent with a NS."
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "event": "GW150914",
+  "template_type": "0th-order post-Newtonian inspiral",
+  "template_m1_msun": 36.2,
+  "template_m2_msun": 29.1,
+  "chirp_mass_input_msun": 28.221383438258666,
+  "chirp_mass_scan_best_fit_msun": 36.53846153846154,
+  "detectors": {
+    "H1": {
+      "peak_snr": 4.955237877250327e+22,
+      "peak_time": 0.239013671875
+    },
+    "L1": {
+      "peak_snr": -4.093453157174485e+22,
+      "peak_time": 0.231689453125
+    }
+  }
+}
