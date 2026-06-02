@@ -113,7 +113,7 @@ cosmic-explosion-explorer/
 │
 ├── README.md
 ├── requirements.txt
-├── environment.yml              ← Anaconda environment
+├── ligo.yml              ← Anaconda environment
 │
 ├── config.py                   ← All constants: paths, event params, signal params
 ├── utils.py                    ← Reusable functions: I/O, plotting, signal utilities
