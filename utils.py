@@ -325,7 +325,7 @@ def plot_timeseries(
 
     axes[-1].set_xlabel(VIZ.XLABEL_TIME, fontsize=10)
     fig.suptitle(title, fontsize=13, y=1.01)
-    plt.tight_layout()
+    fig.set_constrained_layout(True)
 
     if save_path:
         fig.savefig(save_path, dpi=VIZ.FIGURE_DPI, bbox_inches="tight")
@@ -387,7 +387,8 @@ def plot_asd(
     ax.set_title(title, fontsize=12)
     ax.legend(fontsize=9)
     ax.grid(True, which="both", alpha=0.25)
-    plt.tight_layout()
+    fig.set_constrained_layout(True)
+
 
     if save_path:
         fig.savefig(save_path, dpi=VIZ.FIGURE_DPI, bbox_inches="tight")
@@ -483,7 +484,8 @@ def plot_qtransform(
     cbar = fig.colorbar(im, ax=ax, pad=0.01)
     cbar.set_label("Normalised energy", fontsize=9)
 
-    plt.tight_layout()
+    fig.set_constrained_layout(True)
+
 
     if save_path:
         fig.savefig(save_path, dpi=VIZ.FIGURE_DPI, bbox_inches="tight")

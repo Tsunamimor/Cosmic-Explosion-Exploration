@@ -209,3 +209,99 @@ class VIZ:
     XLABEL_FREQ        = "Frequency (Hz)"
     YLABEL_STRAIN      = "Strain h(t)"
     YLABEL_NORM_STRAIN = "Normalised strain"
+
+    # ── Overview chart inset zoom window ──────────────────────────────────────
+    # The xlim used for the inset zoom box on the full-segment overview plot.
+    # Centres on the merger with a small post-merger tail to capture ringdown.
+    ZOOM_INSET_WINDOW  = (-0.2, 0.1)     # seconds relative to merger
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 5. EVENT-SPECIFIC PHASE MARKERS
+# ══════════════════════════════════════════════════════════════════════════════
+
+# Times (seconds relative to merger) marking the three signal phases:
+#   inspiral_end   — approximate end of the visible inspiral sweep
+#   merger         — peak amplitude / coalescence (always 0.0 by definition)
+#   ringdown_start — approximate start of the exponentially decaying ringdown
+#
+# These are drawn as vertical reference lines on zoomed time-series plots.
+# Values are event-specific because the phase timings depend on the masses
+# and the signal-to-noise at each detector.
+#
+# BBH  = Binary Black Hole
+# BNS  = Binary Neutron Star
+# NSBH = Neutron Star – Black Hole
+
+PHASE_MARKERS = {
+    "GW150914": {
+        "inspiral_end":   -0.1,    # Late inspiral clearly visible ~100ms before merger
+        "merger":          0.0,    # Peak amplitude
+        "ringdown_start":  0.05,   # Ringdown exponential decay starts ~50ms after merger
+    },
+    "GW170814": {
+        "inspiral_end":   -0.08,
+        "merger":          0.0,
+        "ringdown_start":  0.04,
+    },
+    "GW170817": {
+        # BNS: much longer inspiral (~100s in band), merger less impulsive
+        "inspiral_end":   -0.02,
+        "merger":          0.0,
+        "ringdown_start":  0.01,
+    },
+    "GW190521": {
+        # Very massive BBH — only 1–2 cycles visible, very short inspiral
+        "inspiral_end":   -0.05,
+        "merger":          0.0,
+        "ringdown_start":  0.03,
+    },
+    "GW200105": {
+        # NSBH: asymmetric mass ratio, moderate-length inspiral
+        "inspiral_end":   -0.06,
+        "merger":          0.0,
+        "ringdown_start":  0.03,
+    },
+}
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 6. EVENT-SPECIFIC DETECTOR CORRELATION PARAMETERS
+# ══════════════════════════════════════════════════════════════════════════════
+
+# Parameters for the H1/L1 waveform alignment plot.
+# Each event has a different inter-detector arrival time delay (reflecting the
+# source sky position) and potentially a different sign convention depending on
+# the wave polarisation and detector orientation.
+#
+# time_shift_s  : seconds to shift L1 forward so it aligns with H1 in time
+# sign_flip     : +1 or -1 — corrects for opposite detector arm orientations
+# crop_window   : (start, end) seconds relative to merger for the alignment plot
+
+DETECTOR_CORRELATION = {
+    "GW150914": {
+        "time_shift_s":  0.007,          # H1 preceded L1 by ~7 ms
+        "sign_flip":    -1,              # Detectors have opposing arm orientations
+        "crop_window":  (-0.45, 0.10),   # Late inspiral + merger + early ringdown
+    },
+    "GW170814": {
+        "time_shift_s":  0.004,
+        "sign_flip":    -1,
+        "crop_window":  (-0.40, 0.10),
+    },
+    "GW170817": {
+        "time_shift_s":  0.001,
+        "sign_flip":     1,
+        "crop_window":  (-0.10, 0.05),
+    },
+    "GW190521": {
+        "time_shift_s":  0.003,
+        "sign_flip":    -1,
+        "crop_window":  (-0.20, 0.10),
+    },
+    "GW200105": {
+        "time_shift_s":  0.005,
+        "sign_flip":    -1,
+        "crop_window":  (-0.30, 0.10),
+    },
+}
