@@ -16,6 +16,25 @@ Usage (in any notebook):
 from pathlib import Path
 
 # ══════════════════════════════════════════════════════════════════════════════
+# 0. PHYSICAL CONSTANTS
+# ══════════════════════════════════════════════════════════════════════════════
+
+class PHYSICS:
+    """
+    Fundamental physical constants used in gravitational wave analysis.
+
+    Centralised here so notebooks do not embed magic numbers, and so that
+    any future update to precision (e.g. using CODATA values) can be made
+    in one place.
+
+    All values in SI units.
+    """
+    G        = 6.674e-11   # Gravitational constant        [m³ kg⁻¹ s⁻²]
+    C        = 3.0e8       # Speed of light                [m s⁻¹]
+    M_SUN_KG = 1.989e30    # Solar mass                    [kg]
+
+
+# ══════════════════════════════════════════════════════════════════════════════
 # 1. FILE PATHS
 # ══════════════════════════════════════════════════════════════════════════════
 
@@ -43,6 +62,9 @@ class PATHS:
     # Visualisation outputs (spectrograms, Q-transforms, etc.)
     VIZ_DIR       = ROOT / "data" / "visualisations"
 
+    # Extracted features (JSON + CSV outputs from notebook 04)
+    FEATURES_DIR  = ROOT / "data" / "features"
+
     # ── Convenience constructors ───────────────────────────────────────────────
 
     @staticmethod
@@ -66,10 +88,21 @@ class PATHS:
         """
         return PATHS.VIZ_DIR / f"{event_name}_{suffix}.png"
 
+    @staticmethod
+    def features_path(event_name: str, ext: str = "json") -> Path:
+        """
+        Path for a feature output file.
+
+        Examples:
+            PATHS.features_path("GW150914")       → data/features/GW150914_features.json
+            PATHS.features_path("GW150914", "csv") → data/features/GW150914_features.csv
+        """
+        return PATHS.FEATURES_DIR / f"{event_name}_features.{ext}"
+
     @classmethod
     def make_dirs(cls):
         """Create all data directories (safe to call multiple times)."""
-        for d in [cls.RAW_DIR, cls.PROC_DIR, cls.VIZ_DIR]:
+        for d in [cls.RAW_DIR, cls.PROC_DIR, cls.VIZ_DIR, cls.FEATURES_DIR]:
             d.mkdir(parents=True, exist_ok=True)
 
 
@@ -215,6 +248,19 @@ class VIZ:
     # Centres on the merger with a small post-merger tail to capture ringdown.
     ZOOM_INSET_WINDOW  = (-0.2, 0.1)     # seconds relative to merger
 
+    # ── Feature extraction plot windows (notebook 04) ─────────────────────────
+    # x-axis window for the Hilbert envelope and instantaneous frequency plots.
+    # Wider than TIMESERIES_WINDOW to show the approach phase as well.
+    HILBERT_XLIM       = (-1.5, 0.5)     # seconds relative to merger
+
+    # y-axis for the instantaneous frequency track.
+    # Narrower than QTRANSFORM_FRANGE — inst. freq. stays within inspiral band.
+    INST_FREQ_YLIM     = (20, 250)       # Hz
+
+    # Coarser Q-transform time resolution for feature extraction (notebook 04).
+    # Faster than VIZ.QTRANSFORM_TRES (0.001 s) — fine detail not needed here.
+    QTRANSFORM_TRES_FAST = 0.002         # seconds
+
 
 # ══════════════════════════════════════════════════════════════════════════════
 # 5. EVENT-SPECIFIC PHASE MARKERS
@@ -235,32 +281,37 @@ class VIZ:
 
 PHASE_MARKERS = {
     "GW150914": {
-        "inspiral_end":   -0.1,    # Late inspiral clearly visible ~100ms before merger
-        "merger":          0.0,    # Peak amplitude
-        "ringdown_start":  0.05,   # Ringdown exponential decay starts ~50ms after merger
+        "inspiral_end":     -0.1,         # Late inspiral clearly visible ~100ms before merger
+        "merger":            0.0,         # Peak amplitude
+        "ringdown_start":    0.05,        # Ringdown exponential decay starts ~50ms after merger
+        "inspiral_window":  (-0.20, -0.05), # Post-Newtonian chirp mass fit window
     },
     "GW170814": {
-        "inspiral_end":   -0.08,
-        "merger":          0.0,
-        "ringdown_start":  0.04,
+        "inspiral_end":     -0.08,
+        "merger":            0.0,
+        "ringdown_start":    0.04,
+        "inspiral_window":  (-0.30, -0.04),
     },
     "GW170817": {
         # BNS: much longer inspiral (~100s in band), merger less impulsive
-        "inspiral_end":   -0.02,
-        "merger":          0.0,
-        "ringdown_start":  0.01,
+        "inspiral_end":     -0.02,
+        "merger":            0.0,
+        "ringdown_start":    0.01,
+        "inspiral_window":  (-0.10, -0.01),
     },
     "GW190521": {
         # Very massive BBH — only 1–2 cycles visible, very short inspiral
-        "inspiral_end":   -0.05,
-        "merger":          0.0,
-        "ringdown_start":  0.03,
+        "inspiral_end":     -0.05,
+        "merger":            0.0,
+        "ringdown_start":    0.03,
+        "inspiral_window":  (-0.15, -0.03),
     },
     "GW200105": {
         # NSBH: asymmetric mass ratio, moderate-length inspiral
-        "inspiral_end":   -0.06,
-        "merger":          0.0,
-        "ringdown_start":  0.03,
+        "inspiral_end":     -0.06,
+        "merger":            0.0,
+        "ringdown_start":    0.03,
+        "inspiral_window":  (-0.20, -0.03),
     },
 }
 
