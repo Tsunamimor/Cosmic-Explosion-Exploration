@@ -1,4 +1,4 @@
-# 🌌 Cosmic Explosion Exploration
+# 🌌 Cosmic Explosion Explorer
 
 > *Listening to the universe's most violent events — one gravitational wave at a time.*
 
@@ -113,7 +113,7 @@ cosmic-explosion-explorer/
 │
 ├── README.md
 ├── requirements.txt
-├── ligo.yml              ← Anaconda environment
+├── environment.yml              ← Anaconda environment
 │
 ├── config.py                   ← All constants: paths, event params, signal params
 ├── utils.py                    ← Reusable functions: I/O, plotting, signal utilities
