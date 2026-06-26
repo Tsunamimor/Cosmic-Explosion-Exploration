@@ -1,6 +1,6 @@
 {
   "pipeline_version": "1.0",
-  "run_timestamp": "2026-03-24T18:51:39.649852",
+  "run_timestamp": "2026-06-26T13:34:34.980455+00:00",
   "event": "GW150914",
   "gps_merge_time": 1126259462,
   "detectors": [
@@ -22,41 +22,41 @@
   },
   "features": {
     "H1": {
-      "peak_amplitude": 2.567815686774254,
-      "noise_rms": 0.3388843586703777,
-      "signal_rms": 0.4238983446075502,
-      "simple_snr": 1.250864295627946,
-      "kurtosis": 0.4213081959564571,
-      "skewness": 0.0139202873267535,
+      "peak_amplitude": 2.567815686774197,
+      "noise_rms": 0.3388843586703776,
+      "signal_rms": 0.4238983446075499,
+      "simple_snr": 1.2508642956279454,
+      "kurtosis": 0.4213081959564517,
+      "skewness": 0.0139202873267493,
       "peak_frequency_hz": 48.0,
-      "spectral_centroid_hz": 178.89241007866624,
-      "spectral_bandwidth_hz": 96.44028826831136,
-      "spectral_entropy_bits": 4.102975027673112,
-      "inspiral_f_start_hz": 216.35009638294133,
-      "inspiral_f_end_hz": 77.03421461363365,
-      "freq_sweep_rate_hz_s": -218.62354504534085,
+      "spectral_centroid_hz": 178.89241007866497,
+      "spectral_bandwidth_hz": 96.44028826831176,
+      "spectral_entropy_bits": 4.102975027673105,
+      "inspiral_f_start_hz": 171.8374195358208,
+      "inspiral_f_end_hz": 158.8069330726216,
+      "freq_sweep_rate_hz_s": -215.17617947840031,
       "chirp_mass_msun": null,
-      "qt_peak_energy": 88.25920104980469,
+      "qt_peak_energy": 88.25884246826172,
       "qt_peak_time_s": 0.4221131801605224,
       "qt_peak_frequency_hz": 148.69323271205783,
-      "qt_energy_concentration": 0.4486909508705139
+      "qt_energy_concentration": 0.4486908316612243
     },
     "L1": {
-      "peak_amplitude": 2.3438639210105805,
-      "noise_rms": 0.3446513314655455,
-      "signal_rms": 0.3839550006700455,
-      "simple_snr": 1.1140389304093814,
-      "kurtosis": 0.1278563335282219,
-      "skewness": 0.0124756085532156,
+      "peak_amplitude": 2.343863921010524,
+      "noise_rms": 0.3446513314655476,
+      "signal_rms": 0.3839550006700469,
+      "simple_snr": 1.1140389304093783,
+      "kurtosis": 0.1278563335282139,
+      "skewness": 0.0124756085532165,
       "peak_frequency_hz": 336.0,
-      "spectral_centroid_hz": 199.6346673094756,
-      "spectral_bandwidth_hz": 93.61636371276504,
-      "spectral_entropy_bits": 4.093838725512411,
-      "inspiral_f_start_hz": 350.0,
-      "inspiral_f_end_hz": 302.9038217555905,
-      "freq_sweep_rate_hz_s": -11.010899287756065,
-      "chirp_mass_msun": null,
-      "qt_peak_energy": 21.68764305114746,
+      "spectral_centroid_hz": 199.63466730947653,
+      "spectral_bandwidth_hz": 93.61636371276512,
+      "spectral_entropy_bits": 4.093838725512407,
+      "inspiral_f_start_hz": 239.202054015412,
+      "inspiral_f_end_hz": 200.86513059961308,
+      "freq_sweep_rate_hz_s": 30.269123611217307,
+      "chirp_mass_msun": 0.3241704754494754,
+      "qt_peak_energy": 21.68760681152344,
       "qt_peak_time_s": 0.3761110305786133,
       "qt_peak_frequency_hz": 175.8448935110018,
       "qt_energy_concentration": 0.3588835000991821
@@ -67,22 +67,31 @@
     "template_type": "0th-order post-Newtonian inspiral",
     "template_m1_msun": 36.2,
     "template_m2_msun": 29.1,
-    "chirp_mass_input_msun": 28.221383438258666,
+    "chirp_mass_input_msun": 28.22138343825867,
     "chirp_mass_scan_best_fit_msun": 36.53846153846154,
+    "published_chirp_mass_msun": 28.3,
     "detectors": {
       "H1": {
-        "peak_snr": 4.955237877250327e+22,
-        "peak_time": 0.239013671875
+        "peak_snr": -23.793766253770233,
+        "peak_time": 0.052490234375
       },
       "L1": {
-        "peak_snr": -4.093453157174485e+22,
-        "peak_time": 0.231689453125
+        "peak_snr": -20.149165132235805,
+        "peak_time": 0.0419921875
       }
     }
   },
   "published_reference": {
-    "citation": "Abbott et al. (2016), PRL 116, 061102",
-    "doi": "10.1103/PhysRevLett.116.061102",
+    "discovery_paper": {
+      "citation": "Abbott et al. (2016), Observation of Gravitational Waves from a Binary Black Hole Merger, Phys. Rev. Lett. 116, 061102",
+      "doi": "10.1103/PhysRevLett.116.061102",
+      "arxiv": "1602.03837"
+    },
+    "properties_paper": {
+      "citation": "Abbott et al. (2016), Properties of the Binary Black Hole Merger GW150914, Phys. Rev. Lett. 116, 241102",
+      "doi": "10.1103/PhysRevLett.116.241102",
+      "arxiv": "1602.03840"
+    },
     "parameters": {
       "m1_source_msun": 36.2,
       "m2_source_msun": 29.1,

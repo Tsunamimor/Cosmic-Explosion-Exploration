@@ -8,12 +8,12 @@
   "published_chirp_mass_msun": 28.3,
   "detectors": {
     "H1": {
-      "peak_snr": 4.872108641618385e+22,
-      "peak_time": 0.23828125
+      "peak_snr": -23.793766253770233,
+      "peak_time": 0.052490234375
     },
     "L1": {
-      "peak_snr": -4.106728738482899e+22,
-      "peak_time": 0.23095703125
+      "peak_snr": -20.149165132235805,
+      "peak_time": 0.0419921875
     }
   }
 }

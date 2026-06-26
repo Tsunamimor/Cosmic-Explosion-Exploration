@@ -3,7 +3,7 @@ pipeline_banner.py — LIGO Gravitational Wave Analysis Pipeline
 ==============================================================
 Generates an SVG pipeline-flow banner for embedding in Jupyter notebooks.
 
-The banner shows all six pipeline stages, with the current stage highlighted
+The banner shows all six pipeline stages each of which has its own notebook, with the current stage of the notebook in questions highlighted
 in the deep-space teal accent colour and all other stages muted.
 
 Usage (at the top of any pipeline notebook):
@@ -31,13 +31,13 @@ from typing import Optional
 _STAGES = [
     ("01", "data",     "acquisition", "fetch · inspect · save"),
     ("02", "pre-",     "processing",  "whiten · filter · notch"),
-    ("03", "visuali-", "sation",      "strain · ASD · Q-transform"),
-    ("04", "feature",  "extraction",  "SNR · chirp · statistics"),
-    ("05", "model-",   "ling",        "matched filter · template"),
-    ("06", "results",  "",            "summary · figures · export"),
+    ("03", "visuali-", "sation",      "strain · ASD · Q-tf"),
+    ("04", "feature",  "extraction",  "SNR · chirp · stats"),
+    ("05", "model-",   "ling",        "matched filter"),
+    ("06", "results",  "",            "summary · export"),
 ]
 
-# ── Colour tokens ──────────────────────────────────────────────────────────────
+# ── Colour Palette ──────────────────────────────────────────────────────────────
 _ACCENT      = "#4a9eca"   # teal — active step border, text, arrows
 _ACCENT_GLOW = "#4a9eca"   # same hue for halo rings
 _ACCENT_TEXT = "#7eb8e0"   # lighter teal for active label text
@@ -62,7 +62,7 @@ def pipeline_banner(
     show_description: bool = True,
 ) -> HTML:
     """
-    Return an IPython HTML object containing an SVG pipeline flow banner.
+    Returns an IPython HTML object containing an SVG pipeline flow banner.
 
     Parameters
     ----------
@@ -246,9 +246,15 @@ def _step_box(idx: int, stage: tuple, is_active: bool, show_description: bool) -
             f'font-size="10" font-weight="500" fill="{label_fill}">{line2}</text>'
         )
     # Description (active step only)
+    # Auto-fit to the box width using SVG textLength so long descriptions
+    # compress to fit rather than overflowing the box. We cap textLength at
+    # the box interior width (with a small margin) and let the browser shrink
+    # the glyph spacing if the natural width would exceed it.
     if is_active and show_description:
+        fit_width = w - 10   # leave a 5px margin on each side
         lines.append(
             f'<text x="{cx}" y="{y_desc}" text-anchor="middle" '
+            f'textLength="{fit_width}" lengthAdjust="spacingAndGlyphs" '
             f'font-size="8.5" font-weight="400" '
             f'font-family="\'Helvetica Neue\',Arial,sans-serif" '
             f'fill="{sub_fill}">{desc}</text>'

@@ -27,7 +27,34 @@ import h5py
 from gwpy.timeseries import TimeSeries
 from gwpy.spectrogram import Spectrogram
 
-from config import PATHS, EVENT, SIGNAL, VIZ
+from config import PATHS, EVENT, SIGNAL, VIZ, THEME
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 0. PLOTTING THEME
+# ══════════════════════════════════════════════════════════════════════════════
+
+def apply_theme() -> dict:
+    """
+    Apply the shared deep-space dark theme to matplotlib and return the
+    Wes Anderson colour palette.
+
+    This replaces the ~40-line rcParams block that was previously duplicated
+    at the top of every notebook. Call it once, after importing, e.g.:
+
+        from utils import apply_theme
+        WA = apply_theme()
+        ...
+        ax.plot(t, y, color=WA["H1"])
+
+    Returns
+    -------
+    dict
+        The THEME.WES_ANDERSON colour dict, for use as `WA["H1"]` etc.
+        Use WA.get(key, WA["fallback"]) when a key may be absent.
+    """
+    plt.rcParams.update(THEME.rc_params())
+    return THEME.WES_ANDERSON
 
 
 # ══════════════════════════════════════════════════════════════════════════════

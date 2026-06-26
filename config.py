@@ -33,6 +33,20 @@ class PHYSICS:
     C        = 3.0e8       # Speed of light                [m s⁻¹]
     M_SUN_KG = 1.989e30    # Solar mass                    [kg]
 
+    # Solar mass expressed in geometric time units (seconds): G·M_sun / c³.
+    # This is the natural unit for post-Newtonian waveform formulae, where
+    # masses appear as times. Computed once here so notebooks don't repeat it.
+    M_SUN_S  = G * M_SUN_KG / C**3   # ≈ 4.93e-6 s
+
+    @staticmethod
+    def chirp_mass(m1, m2):
+        """
+        Chirp mass from two component masses (any consistent unit in, same out).
+
+            M_chirp = (m1·m2)^(3/5) / (m1 + m2)^(1/5)
+        """
+        return (m1 * m2) ** 0.6 / (m1 + m2) ** 0.2
+
 
 # ══════════════════════════════════════════════════════════════════════════════
 # 1. FILE PATHS
@@ -64,6 +78,12 @@ class PATHS:
 
     # Extracted features (JSON + CSV outputs from notebook 04)
     FEATURES_DIR  = ROOT / "data" / "features"
+
+    # Model outputs (matched filter results from notebook 05)
+    MODELS_DIR    = ROOT / "data" / "models"
+
+    # Final results & provenance (summary outputs from notebook 06)
+    RESULTS_DIR   = ROOT / "data" / "results"
 
     # ── Convenience constructors ───────────────────────────────────────────────
 
@@ -99,10 +119,37 @@ class PATHS:
         """
         return PATHS.FEATURES_DIR / f"{event_name}_features.{ext}"
 
+    @staticmethod
+    def models_path(event_name: str, suffix: str = "matched_filter_results",
+                    ext: str = "json") -> Path:
+        """
+        Path for a model output file (notebook 05).
+
+        Examples:
+            PATHS.models_path("GW150914")
+            → data/models/GW150914_matched_filter_results.json
+        """
+        return PATHS.MODELS_DIR / f"{event_name}_{suffix}.{ext}"
+
+    @staticmethod
+    def results_path(event_name: str, suffix: str = "pipeline_summary",
+                     ext: str = "json") -> Path:
+        """
+        Path for a final results / provenance output file (notebook 06).
+
+        Examples:
+            PATHS.results_path("GW150914")
+            → data/results/GW150914_pipeline_summary.json
+            PATHS.results_path("GW150914", "pipeline_summary_figure", "png")
+            → data/results/GW150914_pipeline_summary_figure.png
+        """
+        return PATHS.RESULTS_DIR / f"{event_name}_{suffix}.{ext}"
+
     @classmethod
     def make_dirs(cls):
         """Create all data directories (safe to call multiple times)."""
-        for d in [cls.RAW_DIR, cls.PROC_DIR, cls.VIZ_DIR, cls.FEATURES_DIR]:
+        for d in [cls.RAW_DIR, cls.PROC_DIR, cls.VIZ_DIR,
+                  cls.FEATURES_DIR, cls.MODELS_DIR, cls.RESULTS_DIR]:
             d.mkdir(parents=True, exist_ok=True)
 
 
@@ -263,7 +310,85 @@ class VIZ:
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# 5. EVENT-SPECIFIC PHASE MARKERS
+# 5. PLOTTING THEME
+# ══════════════════════════════════════════════════════════════════════════════
+
+class THEME:
+    """
+    The deep-space dark theme and Wes Anderson detector palette, shared by
+    every notebook. Previously this block was copy-pasted into each notebook;
+    centralising it here means a single edit restyles the whole pipeline.
+
+    Apply it in a notebook with one line:
+        from utils import apply_theme
+        WA = apply_theme()        # sets rcParams, returns the colour dict
+
+    The deep-space tokens (BG, AXES, GRID, …) are the figure/axis colours.
+    The WES_ANDERSON dict holds the per-detector and per-feature plot colours.
+    """
+
+    # ── Deep-space figure/axis tokens ─────────────────────────────────────────
+    BG     = "#0d1117"   # Near-black figure background
+    AXES   = "#131c27"   # Slightly lighter axes face
+    GRID   = "#1e2d3e"   # Subtle grid lines
+    TEXT   = "#c9d9e8"   # Pale blue-white text
+    BORDER = "#2a4a6e"   # Axis spine colour
+
+    # ── Wes Anderson detector + feature palette ───────────────────────────────
+    # Warm coral (H1), dusty teal (L1), golden sand (V1), plus semantic accents
+    # used across the visualisation and modelling notebooks.
+    WES_ANDERSON = {
+        "H1":        "#E07B54",   # Warm coral-orange
+        "L1":        "#5AAFA0",   # Dusty teal-green
+        "V1":        "#D4A84B",   # Warm golden sand
+        "merger":    "#F2C46D",   # Butter-yellow merger marker
+        "inspiral":  "#A8C5DA",   # Pale blue
+        "ringdown":  "#C4A8DA",   # Soft lilac
+        "envelope":  "#B8D4E8",   # Pale blue amplitude envelope / PN template
+        "template":  "#B8D4E8",   # Alias: PN template (notebook 05)
+        "inst_freq": "#C4A8DA",   # Soft lilac instantaneous frequency
+        "snr_peak":  "#C4A8DA",   # Soft lilac SNR peak marker
+        "bandpass":  "#8BBF9F",   # Sage bandpass shading
+        "noise_win": "#4a7abf",   # Muted blue noise-window shading
+        "sig_win":   "#C4704A",   # Warm coral signal-window shading
+        "best_fit":  "#E07B54",   # Coral best-fit marker
+        "published": "#5AAFA0",   # Teal published-value marker
+        "fallback":  "#7eb8e0",   # Default when a key is missing
+    }
+
+    # ── matplotlib rcParams for the dark theme ────────────────────────────────
+    # Returned as a dict so apply_theme() can feed it straight to rcParams.
+    @classmethod
+    def rc_params(cls) -> dict:
+        return {
+            "figure.facecolor":  cls.BG,
+            "axes.facecolor":    cls.AXES,
+            "savefig.facecolor": cls.BG,
+            "text.color":        cls.TEXT,
+            "axes.labelcolor":   cls.TEXT,
+            "xtick.color":       cls.TEXT,
+            "ytick.color":       cls.TEXT,
+            "axes.edgecolor":    cls.BORDER,
+            "grid.color":        cls.GRID,
+            "grid.linewidth":    0.6,
+            "axes.grid":         True,
+            "axes.grid.which":   "both",
+            "axes.titlesize":    12,
+            "axes.labelsize":    10,
+            "xtick.labelsize":   9,
+            "ytick.labelsize":   9,
+            "legend.fontsize":   9,
+            "lines.linewidth":   0.9,
+            "axes.linewidth":    0.8,
+            "figure.constrained_layout.use": True,
+            # DejaVu Sans includes the ☉ and √ glyphs that Arial lacks,
+            # avoiding "missing glyph" warnings on Windows.
+            "font.family":       "DejaVu Sans",
+        }
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 6. EVENT-SPECIFIC PHASE MARKERS
 # ══════════════════════════════════════════════════════════════════════════════
 
 # Times (seconds relative to merger) marking the three signal phases:
