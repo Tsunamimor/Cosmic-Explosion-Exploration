@@ -1,4 +1,4 @@
-# 🌌 Cosmic Explosion Explorer
+# 🌌 Cosmic Explosion Exploration
 
 > *Listening to the universe's most violent events — one gravitational wave at a time.*
 
